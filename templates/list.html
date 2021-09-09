@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<div class="alert alert-primary" role="alert">
+  <h3>SNSApplication―Web上で気軽に交流を楽しもう</h3>
+</div>
+{% endblock header %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+  <a href="{% url 'create' %}" role="button" class="btn btn-info">新しく投稿する</a>
+  {% for item in object_list %}
+  <div class="alert alert-success" role="alert">
+    <p>タイトル：<a href="{% url 'detail' item.pk %}">{{ item.title }}</a></p>
+    <p>投稿者：{{ item.author }}</p>
+    <a href="{% url 'good' item.pk %}" class="btn btn-primary btn-lg" tabindex="-1" role="button" aria-disabled="true">いいね({{item.good}})</a>
+    <a href="{% url 'read' item.pk %}" class="btn btn-secondary btn-lg" tabindex="-1" role="button" aria-disabled="true">既読({{item.read}})</a>
+  </div>
+  {% endfor %}
+  <a href="{% url 'logout' %}">ログアウト</a>
+</div>
+{% else %}
+please login.
+<a href="{% url 'login' %}">ログイン</a>
+{% endif %}
+{% endblock content %}
